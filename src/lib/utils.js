@@ -26,7 +26,7 @@ export function generateSlug(str) {
 }
 
 export const isAdmin = (user) => {
-  return user.publicMetadata.role === "admin";
+  return user.role === "ADMIN";
 };
 
 export const saltAndHashPassword = (password) => {

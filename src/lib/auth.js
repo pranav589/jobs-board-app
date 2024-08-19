@@ -57,4 +57,28 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       },
     }),
   ],
+  callbacks: {
+    async jwt({ token, user }) {
+      if (user) {
+        return {
+          ...token,
+          role: user.role,
+        };
+      }
+      return token;
+    },
+    async session({ user, session, token }) {
+      if (session) {
+        return {
+          ...session,
+          user: {
+            ...session.user,
+            role: token.role,
+          },
+        };
+      }
+      return session;
+    },
+  },
+  secret: process.env.AUTH_SECRET,
 });

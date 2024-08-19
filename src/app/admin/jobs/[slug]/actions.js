@@ -1,8 +1,8 @@
 "use server";
 
+import { auth } from "@/lib/auth";
 import prisma from "@/lib/prisma";
 import { isAdmin } from "@/lib/utils";
-import { currentUser } from "@clerk/nextjs/server";
 import { del } from "@vercel/blob";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
@@ -10,9 +10,9 @@ import { redirect } from "next/navigation";
 export async function approvedSubmission(prevState, formData) {
   try {
     const jobId = parseInt(formData.get("jobId"));
+    const session = await auth();
 
-    const user = await currentUser();
-    if (!user || !isAdmin(user)) {
+    if (!session || !isAdmin(session.user)) {
       throw new Error("Not Authorized");
     }
 
