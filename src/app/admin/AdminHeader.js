@@ -1,12 +1,13 @@
 "use client";
 
-import { useClerk } from "@clerk/nextjs";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React from "react";
+import { logoutUser } from "../(auth)/actions";
 
 function AdminHeader() {
-  const { user, signOut } = useClerk();
+  const session = useSession();
   const router = useRouter();
   return (
     <div className="px-3">
@@ -15,12 +16,10 @@ function AdminHeader() {
           Admin Dashboard
         </Link>
         <div className="space-x-2">
-          <span className="font-semibold">
-            {user?.primaryEmailAddress?.emailAddress}
-          </span>
+          <span className="font-semibold">{session?.data?.user?.email}</span>
           <button
             onClick={async () => {
-              await signOut();
+              await logoutUser();
               router.push("/");
             }}
             className="underline"

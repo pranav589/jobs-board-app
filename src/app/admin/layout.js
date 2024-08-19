@@ -1,16 +1,18 @@
-import { ClerkProvider } from "@clerk/nextjs";
 import AdminHeader from "./AdminHeader";
+import { SessionProvider } from "next-auth/react";
+import { auth } from "@/lib/auth";
 
 export const Metadata = {
   title: "Admin",
 };
 
-function Layout({ children }) {
+async function Layout({ children }) {
+  const session = await auth();
   return (
-    <ClerkProvider>
+    <SessionProvider session={session}>
       <AdminHeader />
       {children}
-    </ClerkProvider>
+    </SessionProvider>
   );
 }
 

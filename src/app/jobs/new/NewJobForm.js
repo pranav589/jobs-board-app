@@ -29,7 +29,6 @@ function NewJobForm() {
     resolver: zodResolver(createJobSchema),
   });
 
-  console.log({ form });
   const {
     handleSubmit,
     watch,

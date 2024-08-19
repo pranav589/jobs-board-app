@@ -1,16 +1,23 @@
-import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
+import { NextResponse } from "next/server";
 
-// Define routes that should be protected
-const isProtectedRoute = createRouteMatcher([
-  "/admin", // Add any additional routes here
-]);
+import { auth } from "@/lib/auth";
 
-export default clerkMiddleware((auth, req) => {
-  if (isProtectedRoute(req)) {
-    auth().protect();
+const protectedRoutes = ["/admin"];
+
+export default async function middleware(request) {
+  const session = await auth();
+
+  const isProtected = protectedRoutes.some((route) =>
+    request.nextUrl.pathname.startsWith(route),
+  );
+
+  if (!session && isProtected) {
+    const absoluteURL = new URL("/", request.nextUrl.origin);
+    return NextResponse.redirect(absoluteURL.toString());
   }
-});
+  return NextResponse.next();
+}
 
 export const config = {
-  matcher: ["/((?!.+.[w]+$|_next).*)", "/", "/(api|trpc)(.*)"],
+  matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"],
 };

@@ -1,6 +1,7 @@
 import { clsx } from "clsx";
 import { formatDistanceToNowStrict } from "date-fns";
 import { twMerge } from "tailwind-merge";
+import bcrypt from "bcryptjs";
 
 export function cn(...inputs) {
   return twMerge(clsx(inputs));
@@ -26,4 +27,11 @@ export function generateSlug(str) {
 
 export const isAdmin = (user) => {
   return user.publicMetadata.role === "admin";
+};
+
+export const saltAndHashPassword = (password) => {
+  const saltRounds = 10;
+  const salt = bcrypt.genSaltSync(saltRounds);
+  const hash = bcrypt.hashSync(password, salt);
+  return hash;
 };
