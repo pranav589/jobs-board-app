@@ -4,6 +4,8 @@ import prisma from "@/lib/prisma";
 import { notFound } from "next/navigation";
 import React, { cache } from "react";
 
+export const dynamic = "force-dynamic";
+
 const getJob = cache(async (slug) => {
   const job = await prisma.job.findUnique({
     where: {
