@@ -2,6 +2,7 @@ import { clsx } from "clsx";
 import { formatDistanceToNowStrict } from "date-fns";
 import { twMerge } from "tailwind-merge";
 import bcrypt from "bcryptjs";
+import { ADMIN, CANDIDATE, EMPLOYER } from "./constants";
 
 export function cn(...inputs) {
   return twMerge(clsx(inputs));
@@ -26,7 +27,15 @@ export function generateSlug(str) {
 }
 
 export const isAdmin = (user) => {
-  return user.role === "ADMIN";
+  return user.role === ADMIN;
+};
+
+export const isEmployer = (user) => {
+  return user.role === EMPLOYER;
+};
+
+export const isCandidate = (user) => {
+  return user.role === CANDIDATE;
 };
 
 export const saltAndHashPassword = (password) => {
@@ -35,3 +44,8 @@ export const saltAndHashPassword = (password) => {
   const hash = bcrypt.hashSync(password, salt);
   return hash;
 };
+
+export function excludePasswordFromList(user) {
+  const result = user.map(({ password, ...rest }) => ({ ...rest }));
+  return result;
+}

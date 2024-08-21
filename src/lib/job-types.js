@@ -1,3 +1,5 @@
+import { CANDIDATE, EMPLOYER } from "./constants";
+
 export const jobTypes = [
   "Full-time",
   "Part-time",
@@ -8,3 +10,5 @@ export const jobTypes = [
 ];
 
 export const locationTypes = ["Remote", "On-site", "Hybrid"];
+
+export const userRoleTypes = [CANDIDATE, EMPLOYER];

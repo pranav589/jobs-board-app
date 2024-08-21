@@ -50,7 +50,7 @@ function LoginForm() {
       toast.error(result.error);
     } else {
       toast.success("Login Success!");
-      router.push("/admin");
+      router.push("/");
     }
   };
 

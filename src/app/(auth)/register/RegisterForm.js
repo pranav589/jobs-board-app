@@ -16,8 +16,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import React from "react";
 import { useForm } from "react-hook-form";
-import { registerUser } from "../actions";
+import { login, registerUser } from "../actions";
 import toast from "react-hot-toast";
+import Select from "@/components/ui/select";
+import { userRoleTypes } from "@/lib/job-types";
 
 function RegisterForm() {
   const form = useForm({
@@ -27,6 +29,7 @@ function RegisterForm() {
       email: "",
       password: "",
       confirmPassword: "",
+      role: "",
     },
   });
 
@@ -47,7 +50,10 @@ function RegisterForm() {
     if (result?.error) {
       toast.error(result.error);
     }
-    toast.success("Registration Success!");
+    if (result?.id) {
+      toast.success("Registration Success!");
+      await login(formData);
+    }
   };
 
   return (
@@ -83,6 +89,29 @@ function RegisterForm() {
                       type="email"
                       {...field}
                     />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={control}
+              name="role"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>I am a</FormLabel>
+                  <FormControl>
+                    <Select {...field}>
+                      <option value="" hidden>
+                        Select an option
+                      </option>
+                      {userRoleTypes.map((roleType) => (
+                        <option key={roleType} value={roleType}>
+                          {roleType.charAt(0).toUpperCase() +
+                            roleType.slice(1).toLowerCase()}
+                        </option>
+                      ))}
+                    </Select>
                   </FormControl>
                   <FormMessage />
                 </FormItem>

@@ -39,8 +39,8 @@ export async function deleteJob(prevState, formData) {
   try {
     const jobId = parseInt(formData.get("jobId"));
 
-    const user = await currentUser();
-    if (!user || !isAdmin(user)) {
+    const session = await auth();
+    if (!session || !isAdmin(session.user)) {
       throw new Error("Not Authorized");
     }
 

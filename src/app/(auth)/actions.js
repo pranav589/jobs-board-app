@@ -1,7 +1,7 @@
 "use server";
 
 import { signIn, signOut } from "@/lib/auth";
-import { registerSchema } from "@/lib/authValidation";
+import { loginSchema, registerSchema } from "@/lib/authValidation";
 import prisma from "@/lib/prisma";
 import { saltAndHashPassword } from "@/lib/utils";
 import { AuthError } from "next-auth";
@@ -25,8 +25,11 @@ const getUserByEmail = async (email) => {
 };
 
 export const login = async (formData) => {
+  const values = Object.fromEntries(formData.entries());
+
+  const { email, password } = loginSchema.parse(values);
   try {
-    await signIn("credentials", formData);
+    await signIn("credentials", { email, password });
   } catch (error) {
     if (error instanceof AuthError) {
       switch (error.type) {
@@ -44,17 +47,17 @@ export const login = async (formData) => {
 export const registerUser = async (formData) => {
   const values = Object.fromEntries(formData.entries());
 
-  const { email, password, userName } = registerSchema.parse(values);
-
+  const { email, password, userName, role } = registerSchema.parse(values);
+  let result = null;
   try {
     const existingUser = await getUserByEmail(email);
     if (!existingUser) {
       const hash = saltAndHashPassword(password);
-      await prisma.user.create({
+      result = await prisma.user.create({
         data: {
           email,
           password: hash,
-          role: "ADMIN",
+          role,
           userName,
         },
       });
@@ -62,11 +65,15 @@ export const registerUser = async (formData) => {
       throw new Error("User already exists");
     }
     revalidatePath("/admin");
+    return {
+      id: result.id,
+    };
   } catch (error) {
     let message = "Unexpected Error";
     if (error instanceof Error) {
       message = error.message;
     }
+
     return { error: message };
   }
 };

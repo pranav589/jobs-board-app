@@ -1,6 +1,7 @@
 import JobListItem from "@/components/JobListItem";
 import H1 from "@/components/ui/h1";
 import { auth } from "@/lib/auth";
+import { ADMIN } from "@/lib/constants";
 import prisma from "@/lib/prisma";
 import Link from "next/link";
 import { redirect } from "next/navigation";
@@ -14,7 +15,7 @@ export default async function AdminPage() {
     },
   });
 
-  if (!session) {
+  if (!session || session.user.role !== ADMIN) {
     redirect("/");
   }
 

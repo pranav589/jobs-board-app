@@ -17,6 +17,7 @@ export const registerSchema = z
       .min(1, "Password is required")
       .min(8, "Password must have more than 8 characters"),
     confirmPassword: z.string().min(1, "Password confirmation is required"),
+    role: z.string().min(1, "Please select the role"),
   })
   .refine((data) => data.password === data.confirmPassword, {
     path: ["confirmPassword"],

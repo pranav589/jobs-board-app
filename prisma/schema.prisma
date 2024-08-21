@@ -17,7 +17,8 @@ datasource db {
 
 enum UserRole {
   ADMIN
-  USER
+  CANDIDATE
+  EMPLOYER
 }
 
 model Job {
@@ -41,16 +42,20 @@ model Job {
 }
 
 model User {
-  id        String    @id @default(cuid())
-  email     String    @unique
-  userName  String?   @unique
-  password  String
-  image     String?
-  accounts  Account[]
-  sessions  Session[]
-  role      UserRole? @default(ADMIN)
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  id                 String    @id @default(cuid())
+  email              String    @unique
+  userName           String?
+  password           String
+  image              String?
+  accounts           Account[]
+  sessions           Session[]
+  role               UserRole?
+  address            String?
+  experience         String?
+  resume             String?
+  approvedForPosting Boolean   @default(false)
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
 
   @@map("users")
 }
