@@ -2,7 +2,7 @@
 import { auth } from "@/lib/auth";
 import prisma from "@/lib/prisma";
 import { generateSlug } from "@/lib/utils";
-import { createJobSchema } from "@/lib/validation";
+import { createJobSchema } from "@/lib/validations/validation";
 import { nanoid } from "nanoid";
 
 export async function createJobPost(formData) {

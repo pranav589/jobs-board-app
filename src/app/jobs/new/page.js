@@ -3,7 +3,7 @@ import NewJobForm from "./NewJobForm";
 import { auth } from "@/lib/auth";
 import { isEmployer } from "@/lib/utils";
 import { redirect } from "next/navigation";
-import { getCompanyDetails } from "@/app/user/profile/actions";
+import { getCompanyDetails } from "@/app/user/profile/companyActions";
 
 export const metadata = {
   title: "Post a new job",

@@ -1,10 +1,10 @@
 import React from "react";
 import CompanyForm from "./CompanyForm";
-import { getCompanyDetails } from "./companyActions";
 import { auth } from "@/lib/auth";
 import { isCandidate, isEmployer } from "@/lib/utils";
 import CandidateForm from "./CandidateForm";
 import { getProfileDetails } from "./profileActions";
+import { getCompanyDetails } from "./companyActions";
 
 async function Page() {
   const session = await auth();

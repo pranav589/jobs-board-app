@@ -12,7 +12,7 @@ import H1 from "@/components/ui/h1";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { createJobSchema } from "@/lib/validation";
+import { createJobSchema } from "@/lib/validations/validation";
 import { Input } from "@/components/ui/input";
 import Select from "@/components/ui/select";
 import { jobTypes, locationTypes } from "@/lib/job-types";
