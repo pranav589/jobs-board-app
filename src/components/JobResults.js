@@ -22,9 +22,7 @@ async function JobResults({ filterValues, page = 1 }) {
           {
             title: { search: searchString },
           },
-          {
-            companyName: { search: searchString },
-          },
+
           {
             type: { search: searchString },
           },
