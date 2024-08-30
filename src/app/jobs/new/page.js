@@ -3,6 +3,7 @@ import NewJobForm from "./NewJobForm";
 import { auth } from "@/lib/auth";
 import { isEmployer } from "@/lib/utils";
 import { redirect } from "next/navigation";
+import { getCompanyDetails } from "@/app/user/profile/actions";
 
 export const metadata = {
   title: "Post a new job",
@@ -10,12 +11,13 @@ export const metadata = {
 
 async function Page() {
   const session = await auth();
+  const company = await getCompanyDetails();
 
   if (!session || !isEmployer(session.user)) {
     redirect("/");
   }
 
-  return <NewJobForm />;
+  return <NewJobForm company={company} />;
 }
 
 export default Page;

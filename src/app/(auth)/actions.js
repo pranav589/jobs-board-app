@@ -1,7 +1,8 @@
 "use server";
 
 import { signIn, signOut } from "@/lib/auth";
-import { loginSchema, registerSchema } from "@/lib/authValidation";
+import { loginSchema, registerSchema } from "@/lib/validations/authValidation";
+import { EMPLOYER } from "@/lib/constants";
 import prisma from "@/lib/prisma";
 import { saltAndHashPassword } from "@/lib/utils";
 import { AuthError } from "next-auth";
@@ -61,6 +62,19 @@ export const registerUser = async (formData) => {
           userName,
         },
       });
+      role === EMPLOYER &&
+        (await prisma.company.create({
+          data: {
+            email: email,
+            name: "",
+            address: "",
+            users: {
+              connect: {
+                id: result.id,
+              },
+            },
+          },
+        }));
     } else {
       throw new Error("User already exists");
     }

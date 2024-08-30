@@ -6,8 +6,22 @@ import { Button } from "./ui/button";
 import { auth } from "@/lib/auth";
 import LoggedInDropDown from "./LoggedInDropDown";
 import { EMPLOYER } from "@/lib/constants";
+import { isCandidate, isEmployer } from "@/lib/utils";
 
 const EMPLOYER_DROPDOWN_LIST = [
+  {
+    id: "1",
+    name: "Company Details",
+    path: "/user/profile",
+  },
+  {
+    id: "2",
+    name: "Dashboard",
+    path: "/user/dashboard",
+  },
+];
+
+const CANDIDATE_DROPDOWN_LIST = [
   {
     id: "1",
     name: "Profile",
@@ -22,6 +36,12 @@ const EMPLOYER_DROPDOWN_LIST = [
 
 async function Header() {
   const session = await auth();
+
+  const dropDownList = isEmployer(session?.user)
+    ? EMPLOYER_DROPDOWN_LIST
+    : isCandidate(session?.user)
+      ? CANDIDATE_DROPDOWN_LIST
+      : [];
 
   return (
     <header className="shadow-sm">
@@ -42,7 +62,7 @@ async function Header() {
             <LoggedInDropDown
               email={session?.user?.email}
               userName={session?.user?.userName}
-              items={EMPLOYER_DROPDOWN_LIST}
+              items={dropDownList}
             />
           ) : (
             <Button asChild className="mr-5">

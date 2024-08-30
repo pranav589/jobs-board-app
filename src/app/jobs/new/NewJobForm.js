@@ -23,10 +23,22 @@ import RichTextEditor from "@/components/RichTextEditor";
 import { draftToMarkdown } from "markdown-draft-js";
 import LoadingButton from "@/components/LoadingButton";
 import { createJobPost } from "./actions";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
-function NewJobForm() {
+function NewJobForm({ company }) {
+  const router = useRouter();
   const form = useForm({
     resolver: zodResolver(createJobSchema),
+    values: {
+      title: "",
+      type: "",
+      companyName: company?.name,
+      locationType: "",
+      location: company?.address,
+      applicationEmail: company?.email,
+      applicationUrl: company?.url,
+    },
   });
 
   const {
@@ -47,9 +59,15 @@ function NewJobForm() {
       }
     });
     try {
-      await createJobPost(formData);
+      const result = await createJobPost(formData);
+      if (result?.id) {
+        router.push("/job-submitted");
+      }
+      if (result?.error) {
+        toast.error(result?.error);
+      }
     } catch (error) {
-      alert("Something went wrong. Please try again.");
+      toast.error(error || "Something went wrong. Please try again.");
     }
   };
 
@@ -115,27 +133,6 @@ function NewJobForm() {
                   <FormLabel>Company</FormLabel>
                   <FormControl>
                     <Input placeholder="e.g. XYZ" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={control}
-              name="companyLogo"
-              render={({ field: { value, ...fieldValues } }) => (
-                <FormItem>
-                  <FormLabel>Company Logo</FormLabel>
-                  <FormControl>
-                    <Input
-                      type="file"
-                      accept="image/*"
-                      {...fieldValues}
-                      onChange={(e) => {
-                        const file = e.target.files?.[0];
-                        fieldValues.onChange(file);
-                      }}
-                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

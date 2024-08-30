@@ -16,7 +16,7 @@ import Link from "next/link";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { login } from "../actions";
-import { loginSchema } from "@/lib/authValidation";
+import { loginSchema } from "@/lib/validations/authValidation";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 

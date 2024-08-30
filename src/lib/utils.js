@@ -27,15 +27,15 @@ export function generateSlug(str) {
 }
 
 export const isAdmin = (user) => {
-  return user.role === ADMIN;
+  return user?.role === ADMIN;
 };
 
 export const isEmployer = (user) => {
-  return user.role === EMPLOYER;
+  return user?.role === EMPLOYER;
 };
 
 export const isCandidate = (user) => {
-  return user.role === CANDIDATE;
+  return user?.role === CANDIDATE;
 };
 
 export const saltAndHashPassword = (password) => {
@@ -48,4 +48,8 @@ export const saltAndHashPassword = (password) => {
 export function excludePasswordFromList(user) {
   const result = user.map(({ password, ...rest }) => ({ ...rest }));
   return result;
+}
+
+export function excludePassword({ password, ...rest }) {
+  return rest;
 }

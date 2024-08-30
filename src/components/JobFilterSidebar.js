@@ -4,7 +4,7 @@ import { Label } from "./ui/label";
 import Select from "./ui/select";
 import { jobTypes } from "@/lib/job-types";
 import { Button } from "./ui/button";
-import { jobFilterSchema } from "@/lib/validation";
+import { jobFilterSchema } from "@/lib/validations/validation";
 import { redirect } from "next/navigation";
 import FormSubmitButton from "./FormSubmitButton";
 

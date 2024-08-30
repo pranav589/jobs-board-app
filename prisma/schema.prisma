@@ -21,43 +21,74 @@ enum UserRole {
   EMPLOYER
 }
 
+enum JobStatus {
+  APPLIED
+  INTERVIEWING
+  OFFERED
+  REJECTED
+}
+
 model Job {
-  id               Int      @id @default(autoincrement())
-  slug             String   @unique
-  title            String
-  type             String
-  locationType     String
-  location         String?
-  description      String?
-  salary           Int?
-  companyName      String
-  applicationEmail String?
-  applicationUrl   String?
-  companyLogoUrl   String?
-  approved         Boolean  @default(false)
-  createdAt        DateTime @default(now())
-  updatedAt        DateTime @updatedAt
+  id           Int           @id @default(autoincrement())
+  slug         String        @unique
+  title        String
+  type         String
+  locationType String
+  location     String?
+  description  String?
+  salary       Int?
+  company      Company       @relation(fields: [companyId], references: [id])
+  companyId    Int
+  employer     User          @relation("PostedJobs", fields: [employerId], references: [id])
+  employerId   Int
+  applications Application[]
+  approved     Boolean       @default(false)
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
 
   @@map("jobs")
 }
 
+model Application {
+  id        Int       @id @default(autoincrement())
+  job       Job       @relation(fields: [jobId], references: [id])
+  jobId     Int
+  user      User      @relation(fields: [userId], references: [id])
+  userId    Int
+  status    JobStatus
+  createdAt DateTime  @default(now())
+}
+
 model User {
-  id                 String    @id @default(cuid())
-  email              String    @unique
+  id                 Int           @id @default(autoincrement())
+  email              String        @unique
   userName           String?
   password           String
   image              String?
-  accounts           Account[]
-  sessions           Session[]
   role               UserRole?
   address            String?
   experience         String?
   resume             String?
-  approvedForPosting Boolean   @default(false)
-  createdAt          DateTime  @default(now())
-  updatedAt          DateTime  @updatedAt
+  approvedForPosting Boolean       @default(false)
+  company            Company?      @relation(fields: [companyId], references: [id])
+  companyId          Int?
+  jobs               Job[]         @relation("PostedJobs")
+  applications       Application[]
+  createdAt          DateTime      @default(now())
+  updatedAt          DateTime      @updatedAt
 
   @@map("users")
+}
+
+model Company {
+  id      Int     @id @default(autoincrement())
+  name    String
+  email   String  @unique
+  logo    String?
+  url     String?
+  address String
+  users   User[]
+  jobs    Job[]
 }
 
 model Account {
@@ -76,7 +107,7 @@ model Account {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  // user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@id([provider, providerAccountId])
 }
@@ -85,7 +116,7 @@ model Session {
   sessionToken String   @unique
   userId       String
   expires      DateTime
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  // user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

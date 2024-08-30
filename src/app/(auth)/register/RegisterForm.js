@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/form";
 import H1 from "@/components/ui/h1";
 import { Input } from "@/components/ui/input";
-import { registerSchema } from "@/lib/authValidation";
+import { registerSchema } from "@/lib/validations/authValidation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import React from "react";

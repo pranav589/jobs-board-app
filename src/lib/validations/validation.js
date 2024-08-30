@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { jobTypes, locationTypes } from "./job-types";
+import { jobTypes, locationTypes } from "../job-types";
 
 const schemaInput = {
   q: z.string().optional(),
@@ -11,25 +11,6 @@ const schemaInput = {
 const requiredString = z.string().min(1, "Required");
 
 const numericRequiredString = requiredString.regex(/^\d+$/, "Must be a number");
-
-const companyLogoSchema = z
-  .custom()
-  .refine((file) => {
-    return !file || file.type.startsWith("image/");
-  }, "Must be an image file")
-  .refine((file) => {
-    return !file || file.size < 1024 * 1024 * 2;
-  }, "File must be less than 2 MB");
-
-const applicationSchema = z
-  .object({
-    applicationEmail: z.string().max(100).email().optional().or(z.literal("")),
-    applicationUrl: z.string().max(100).email().optional().or(z.literal("")),
-  })
-  .refine((data) => data.applicationEmail || data.applicationUrl, {
-    message: "Email or url is required",
-    path: ["applicationEmail"],
-  });
 
 const locationSchema = z
   .object({
@@ -56,14 +37,12 @@ export const createJobSchema = z
       "Invalid job type",
     ),
     companyName: requiredString.max(100),
-    companyLogo: companyLogoSchema,
     description: z.string().max(6000).optional(),
     salary: numericRequiredString.max(
       9,
       "Number can't be longer than 9 digits",
     ),
   })
-  .and(applicationSchema)
   .and(locationSchema);
 
 export const jobFilterSchema = z.object({ ...schemaInput });
