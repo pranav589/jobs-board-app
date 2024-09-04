@@ -7,6 +7,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { cn } from "@/lib/utils";
 
 export function PopupDialog({
   buttonName = "",
@@ -16,15 +17,24 @@ export function PopupDialog({
   setOpen,
   children,
   disabledMainButton = false,
+  customOpenButton,
+  className,
 }) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        {buttonName && (
-          <Button disabled={disabledMainButton}>{buttonName}</Button>
-        )}
+        {customOpenButton
+          ? customOpenButton
+          : buttonName && (
+              <Button disabled={disabledMainButton}>{buttonName}</Button>
+            )}
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px] max-h-[90vh] overflow-y-auto overflow-x-hidden">
+      <DialogContent
+        className={cn(
+          "sm:max-w-[425px] max-h-[90vh] overflow-y-auto overflow-x-hidden",
+          className,
+        )}
+      >
         <DialogHeader>
           {dialogTitle && <DialogTitle>{dialogTitle}</DialogTitle>}
           {dialogDescription && (

@@ -18,8 +18,8 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { login, registerUser } from "../actions";
 import toast from "react-hot-toast";
-import Select from "@/components/ui/select";
 import { userRoleTypes } from "@/lib/job-types";
+import NormalSelect from "@/components/ui/normal-select";
 
 function RegisterForm() {
   const form = useForm({
@@ -101,7 +101,7 @@ function RegisterForm() {
                 <FormItem>
                   <FormLabel>I am a</FormLabel>
                   <FormControl>
-                    <Select {...field}>
+                    <NormalSelect {...field}>
                       <option value="" hidden>
                         Select an option
                       </option>
@@ -111,7 +111,7 @@ function RegisterForm() {
                             roleType.slice(1).toLowerCase()}
                         </option>
                       ))}
-                    </Select>
+                    </NormalSelect>
                   </FormControl>
                   <FormMessage />
                 </FormItem>

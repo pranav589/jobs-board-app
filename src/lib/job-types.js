@@ -12,3 +12,5 @@ export const jobTypes = [
 export const locationTypes = ["Remote", "On-site", "Hybrid"];
 
 export const userRoleTypes = [CANDIDATE, EMPLOYER];
+
+export const jobStatus = ["APPLIED", "INTERVIEWING", "OFFERED", "REJECTED"];

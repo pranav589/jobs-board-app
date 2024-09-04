@@ -1,12 +1,11 @@
 import prisma from "@/lib/prisma";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
-import Select from "./ui/select";
 import { jobTypes } from "@/lib/job-types";
-import { Button } from "./ui/button";
 import { jobFilterSchema } from "@/lib/validations/validation";
 import { redirect } from "next/navigation";
 import FormSubmitButton from "./FormSubmitButton";
+import NormalSelect from "./ui/normal-select";
 
 async function filterJobs(formData) {
   "use server";
@@ -51,7 +50,7 @@ async function JobFilterSidebar({ defaultValues }) {
           </div>
           <div className="flex flex-col gap-2">
             <Label htmlFor="type">Type</Label>
-            <Select
+            <NormalSelect
               id="type"
               name="type"
               defaultValue={defaultValues?.type || ""}
@@ -61,11 +60,11 @@ async function JobFilterSidebar({ defaultValues }) {
                   {type}
                 </option>
               ))}
-            </Select>
+            </NormalSelect>
           </div>
           <div className="flex flex-col gap-2">
             <Label htmlFor="location"> Location</Label>
-            <Select
+            <NormalSelect
               id="location"
               name="location"
               defaultValue={defaultValues?.location || ""}
@@ -76,7 +75,7 @@ async function JobFilterSidebar({ defaultValues }) {
                   {location}
                 </option>
               ))}
-            </Select>
+            </NormalSelect>
           </div>
           <div className="flex items-center gap-2">
             <input

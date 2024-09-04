@@ -11,7 +11,7 @@ import path from "path";
 export async function getProfileDetails() {
   const session = await auth();
 
-  if (!session || !isCandidate(session?.user)) {
+  if (!session) {
     throw Error("Access Denied");
   }
   const result = await prisma.user.findUnique({

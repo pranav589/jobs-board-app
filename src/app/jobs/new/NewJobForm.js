@@ -14,7 +14,6 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createJobSchema } from "@/lib/validations/validation";
 import { Input } from "@/components/ui/input";
-import Select from "@/components/ui/select";
 import { jobTypes, locationTypes } from "@/lib/job-types";
 import LocationInput from "@/components/LocationInput";
 import { X } from "lucide-react";
@@ -25,6 +24,7 @@ import LoadingButton from "@/components/LoadingButton";
 import { createJobPost } from "./actions";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import NormalSelect from "@/components/ui/normal-select";
 
 function NewJobForm({ company }) {
   const router = useRouter();
@@ -110,7 +110,7 @@ function NewJobForm({ company }) {
                 <FormItem>
                   <FormLabel>Job Type</FormLabel>
                   <FormControl>
-                    <Select {...field} defaultValue="">
+                    <NormalSelect {...field} defaultValue="">
                       <option value="" hidden>
                         Select an option
                       </option>
@@ -119,7 +119,7 @@ function NewJobForm({ company }) {
                           {jobType}
                         </option>
                       ))}
-                    </Select>
+                    </NormalSelect>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -145,7 +145,7 @@ function NewJobForm({ company }) {
                 <FormItem>
                   <FormLabel>Location Type</FormLabel>
                   <FormControl>
-                    <Select
+                    <NormalSelect
                       {...field}
                       defaultValue=""
                       onChange={(e) => {
@@ -163,7 +163,7 @@ function NewJobForm({ company }) {
                           {locationType}
                         </option>
                       ))}
-                    </Select>
+                    </NormalSelect>
                   </FormControl>
                   <FormMessage />
                 </FormItem>

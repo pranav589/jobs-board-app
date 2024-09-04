@@ -6,7 +6,7 @@
 
 generator client {
   provider        = "prisma-client-js"
-  previewFeatures = ["fullTextSearch"]
+  previewFeatures = ["fullTextSearch", "omitApi"]
 }
 
 datasource db {
@@ -25,6 +25,7 @@ enum JobStatus {
   APPLIED
   INTERVIEWING
   OFFERED
+  HIRED
   REJECTED
 }
 

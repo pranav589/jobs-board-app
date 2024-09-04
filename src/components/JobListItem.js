@@ -5,7 +5,7 @@ import { Banknote, Briefcase, Clock, Globe2, MapPin } from "lucide-react";
 import { formatMoney, relativeDate } from "@/lib/utils";
 import Badge from "./Badge";
 
-function JobListItem({ job }) {
+function JobListItem({ job, isAppliedJobItem }) {
   const {
     title,
     companyName,
@@ -15,7 +15,7 @@ function JobListItem({ job }) {
     salary,
     companyLogoUrl,
     createdAt,
-  } = job;
+  } = job ?? {};
   return (
     <article className="flex gap-3 border rounded-lg p-5 hover:bg-muted/60">
       <Image
@@ -54,10 +54,18 @@ function JobListItem({ job }) {
         </div>
       </div>
       <div className="hidden sm:flex flex-col shrink-0 items-end justify-between">
-        <Badge>{type}</Badge>
+        <Badge>
+          {isAppliedJobItem?.status?.length > 0
+            ? isAppliedJobItem?.status
+            : type}
+        </Badge>
         <span className="flex items-center gap-1.5 text-muted-foreground">
           <Clock size={16} />
-          {relativeDate(createdAt)}
+          {relativeDate(
+            isAppliedJobItem?.createdAt
+              ? isAppliedJobItem?.createdAt
+              : createdAt,
+          )}
         </span>
       </div>
     </article>

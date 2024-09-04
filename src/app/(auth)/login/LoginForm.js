@@ -45,10 +45,9 @@ function LoginForm() {
     });
 
     const result = await login(formData);
-
     if (result?.error) {
       toast.error(result.error);
-    } else {
+    } else if (result !== undefined) {
       toast.success("Login Success!");
       router.push("/");
     }
