@@ -19,6 +19,9 @@ export const getJobsPosted = async () => {
         },
       },
     },
+    orderBy: {
+      createdAt: "desc", // Order by createdAt in descending order
+    },
   });
   return result;
 };
