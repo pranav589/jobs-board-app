@@ -9,7 +9,13 @@ import {
 } from "@/components/ui/table";
 import { MoreHorizontalIcon } from "lucide-react";
 
-export default function JobsTable({ data, columns, renderRow, children }) {
+export default function JobsTable({
+  data,
+  columns,
+  renderRow,
+  renderActions,
+  children,
+}) {
   return (
     <div className="container mx-auto p-4">
       {children}
@@ -27,12 +33,7 @@ export default function JobsTable({ data, columns, renderRow, children }) {
             {data.map((job) => (
               <TableRow key={job.id}>
                 {renderRow(job)}
-                <TableCell className="text-right">
-                  <Button variant="ghost" size="icon">
-                    <MoreHorizontalIcon className="h-4 w-4" />
-                    <span className="sr-only">Actions</span>
-                  </Button>
-                </TableCell>
+                {renderActions(job)}
               </TableRow>
             ))}
           </TableBody>

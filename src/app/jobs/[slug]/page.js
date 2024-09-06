@@ -49,6 +49,7 @@ async function Page({ params: { slug } }) {
             job={job}
             profileData={profileData}
             isAlreadyApplied={isAlreadyApplied}
+            disabled={!job?.activeStatus}
           />
         ) : (
           <Link

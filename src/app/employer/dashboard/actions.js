@@ -3,6 +3,7 @@
 import { auth } from "@/lib/auth";
 import prisma from "@/lib/prisma";
 import { isEmployer } from "@/lib/utils";
+import { revalidatePath } from "next/cache";
 
 export const getJobsPosted = async () => {
   const session = await auth();
@@ -23,13 +24,12 @@ export const getJobsPosted = async () => {
 };
 
 export const changeApplicationStatus = async (selectedApplication) => {
-  const session = await auth();
-
-  if (!isEmployer(session.user)) {
-    throw new Error("Not Authorized");
-  }
-
   try {
+    const session = await auth();
+    if (!isEmployer(session.user)) {
+      throw new Error("Not Authorized");
+    }
+
     const isExist = await prisma.job.findFirst({
       where: {
         id: selectedApplication.jobId,
@@ -60,6 +60,38 @@ export const changeApplicationStatus = async (selectedApplication) => {
     if (error instanceof Error) {
       message = error.message;
     }
+    return { error: message };
+  }
+};
+
+export const changeJobActivationStatus = async (job, activeStatus) => {
+  try {
+    const session = await auth();
+    if (!isEmployer(session.user)) {
+      throw new Error("Not Authorized");
+    }
+
+    if (job.employerId !== parseInt(session?.user?.userId)) {
+      throw new Error("You don't have access to update.");
+    }
+
+    const result = await prisma.job.update({
+      where: {
+        id: job.id,
+        employerId: parseInt(session?.user?.userId),
+      },
+      data: {
+        activeStatus: activeStatus,
+      },
+    });
+    revalidatePath("/employer/dashboard");
+    return result;
+  } catch (error) {
+    let message = "Unexpected Error";
+    if (error instanceof Error) {
+      message = error.message;
+    }
+    console.log({ error });
     return { error: message };
   }
 };

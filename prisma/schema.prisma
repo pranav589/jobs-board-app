@@ -43,6 +43,7 @@ model Job {
   employer     User          @relation("PostedJobs", fields: [employerId], references: [id])
   employerId   Int
   applications Application[]
+  activeStatus Boolean       @default(true)
   approved     Boolean       @default(false)
   createdAt    DateTime      @default(now())
   updatedAt    DateTime      @updatedAt

@@ -43,6 +43,9 @@ async function JobResults({ filterValues, page = 1 }) {
       location ? { location } : {},
       remote ? { locationType: "Remote" } : {},
       // { approved: true },
+      {
+        activeStatus: true,
+      },
     ],
   };
 

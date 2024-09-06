@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import { getCompanyDetails } from "@/app/user/profile/companyActions";
 import Link from "next/link";
 import ViewApplications from "./ViewApplications";
+import RenderActionButtons from "./RenderActionButtons";
 
 async function Page() {
   const session = await auth();
@@ -26,23 +27,12 @@ async function Page() {
   return (
     <main className="max-w-5xl px-3 m-auto my-10 flex flex-col md:flex-row items-center gap-5 md:items-start">
       <JobsTable
+        renderActions={(job) => {
+          return <RenderActionButtons job={job} />;
+        }}
         data={postedJobs}
-        columns={["Job Title", "Date Posted", "Applicants"]}
-        renderRow={(job) => (
-          <>
-            <TableCell className="font-medium">
-              <div className="flex items-center space-x-2">
-                <BriefcaseIcon className="h-4 w-4 text-muted-foreground" />
-                <span>{job.title}</span>
-              </div>
-            </TableCell>
-            <TableCell>{relativeDate(job.updatedAt)}</TableCell>
-            <TableCell>
-              {job.applications.length}
-              <ViewApplications applications={job?.applications} />
-            </TableCell>
-          </>
-        )}
+        columns={["Job Title", "Date Posted", "Applicants", "Status"]}
+        renderRow={(job) => <RenderRows job={job} />}
       >
         <header className="flex items-start justify-between mb-8 flex-col md:flex-row md:items-center">
           <div className="flex items-center space-x-4">
@@ -68,3 +58,22 @@ async function Page() {
 }
 
 export default Page;
+
+const RenderRows = ({ job }) => {
+  return (
+    <>
+      <TableCell className="font-medium">
+        <div className="flex items-center space-x-2">
+          <BriefcaseIcon className="h-4 w-4 text-muted-foreground" />
+          <span>{job.title}</span>
+        </div>
+      </TableCell>
+      <TableCell>{relativeDate(job?.createdAt)}</TableCell>
+      <TableCell>
+        {job.applications.length}
+        <ViewApplications applications={job?.applications} />
+      </TableCell>
+      <TableCell>{job.activeStatus ? "Active" : "Inactive"}</TableCell>
+    </>
+  );
+};

@@ -7,7 +7,7 @@ import { SelectItem, SelectTrigger } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { jobStatus } from "@/lib/job-types";
 import { SelectValue } from "@radix-ui/react-select";
-import React, { useState } from "react";
+import React, { Fragment, useState } from "react";
 import { changeApplicationStatus } from "./actions";
 import toast from "react-hot-toast";
 import { Loader } from "lucide-react";
@@ -33,10 +33,10 @@ function ViewApplications({ applications }) {
       <div>
         {applications?.map((application) => {
           return (
-            <>
+            <Fragment key={application?.id}>
               <IndividualApplication application={application} />
               <Separator className="my-2" />
-            </>
+            </Fragment>
           );
         })}
       </div>

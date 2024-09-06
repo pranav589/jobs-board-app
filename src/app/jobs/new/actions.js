@@ -5,7 +5,7 @@ import { generateSlug } from "@/lib/utils";
 import { createJobSchema } from "@/lib/validations/validation";
 import { nanoid } from "nanoid";
 
-export async function createJobPost(formData) {
+export async function createJobPost(formData, isEdit) {
   const session = await auth();
   const user = await prisma.user.findUnique({
     where: {
@@ -27,33 +27,46 @@ export async function createJobPost(formData) {
     createJobSchema.parse(values);
 
   const slug = `${generateSlug(title)}-${nanoid(10)}`;
-
+  let result = null;
   try {
-    const result = await prisma.job.create({
-      data: {
-        slug,
-        title: title?.trim(),
-        type,
-        locationType,
-        description: description?.trim(),
-        salary: parseInt(salary),
-        location,
-        company: {
-          connect: { id: session.user.companyId },
-        },
-        employer: {
-          connect: { id: parseInt(session.user.userId) },
-        },
-      },
-    });
-
+    result = isEdit?.jobId
+      ? await prisma.job.update({
+          where: {
+            id: isEdit?.jobId,
+            employerId: parseInt(session?.user?.userId),
+          },
+          data: {
+            title: title?.trim(),
+            type,
+            locationType,
+            description: description?.trim(),
+            salary: parseInt(salary),
+            location,
+          },
+        })
+      : await prisma.job.create({
+          data: {
+            slug,
+            title: title?.trim(),
+            type,
+            locationType,
+            description: description?.trim(),
+            salary: parseInt(salary),
+            location,
+            company: {
+              connect: { id: session.user.companyId },
+            },
+            employer: {
+              connect: { id: parseInt(session.user.userId) },
+            },
+          },
+        });
     return result;
   } catch (error) {
     let message = "Unexpected Error";
     if (error instanceof Error) {
       message = error.message;
     }
-
     return { error: message };
   }
 }

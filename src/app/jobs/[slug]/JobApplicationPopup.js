@@ -7,7 +7,7 @@ import { applyForJob } from "./actions";
 import toast from "react-hot-toast";
 import FormSubmitButton from "@/components/FormSubmitButton";
 
-function JobApplicationPopup({ job, profileData, isAlreadyApplied }) {
+function JobApplicationPopup({ job, profileData, isAlreadyApplied, disabled }) {
   const [open, setOpen] = useState(false);
   const applyAction = applyForJob.bind(null, job?.id);
   const onSubmit = async () => {
@@ -61,6 +61,7 @@ function JobApplicationPopup({ job, profileData, isAlreadyApplied }) {
       dialogDescription={"Please check your details (read only fields)."}
       open={open}
       setOpen={setOpen}
+      disabledMainButton={disabled}
     >
       <form action={onSubmit}>
         {JOB_APPLICATION_DETAILS.map((detail) => {

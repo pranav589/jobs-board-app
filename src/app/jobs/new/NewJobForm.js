@@ -19,25 +19,27 @@ import LocationInput from "@/components/LocationInput";
 import { X } from "lucide-react";
 import { Label } from "@/components/ui/label";
 import RichTextEditor from "@/components/RichTextEditor";
-import { draftToMarkdown } from "markdown-draft-js";
+import { draftToMarkdown, markdownToDraft } from "markdown-draft-js";
 import LoadingButton from "@/components/LoadingButton";
 import { createJobPost } from "./actions";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import NormalSelect from "@/components/ui/normal-select";
 
-function NewJobForm({ company }) {
+function NewJobForm({ company, existingJobDetails }) {
   const router = useRouter();
   const form = useForm({
     resolver: zodResolver(createJobSchema),
     values: {
-      title: "",
-      type: "",
+      title: existingJobDetails?.title ?? "",
+      type: existingJobDetails?.type ?? "",
       companyName: company?.name,
-      locationType: "",
+      locationType: existingJobDetails?.locationType ?? "",
       location: company?.address,
       applicationEmail: company?.email,
       applicationUrl: company?.url,
+      salary: existingJobDetails?.salary?.toString(),
+      description: existingJobDetails?.description ?? "",
     },
   });
 
@@ -59,9 +61,15 @@ function NewJobForm({ company }) {
       }
     });
     try {
-      const result = await createJobPost(formData);
-      if (result?.id) {
-        router.push("/job-submitted");
+      const result = await createJobPost(formData, {
+        jobId: existingJobDetails?.id,
+      });
+      if (result?.id && existingJobDetails) {
+        toast.success("Job updated successfully!");
+        router.push("/");
+      } else if (result?.id) {
+        toast.success("Job posted successfully!");
+        router.push("/");
       }
       if (result?.error) {
         toast.error(result?.error);
@@ -247,22 +255,25 @@ function NewJobForm({ company }) {
             <FormField
               control={control}
               name="description"
-              render={({ field }) => (
-                <FormItem>
-                  <Label onClick={() => setFocus("description")}>
-                    Description
-                  </Label>
-                  <FormControl>
-                    <RichTextEditor
-                      onChange={(draft) =>
-                        field.onChange(draftToMarkdown(draft))
-                      }
-                      ref={field.ref}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+              render={({ field }) => {
+                return (
+                  <FormItem>
+                    <Label onClick={() => setFocus("description")}>
+                      Description
+                    </Label>
+                    <FormControl>
+                      <RichTextEditor
+                        onChange={(draft) => {
+                          field.onChange(draftToMarkdown(draft));
+                        }}
+                        defaultValue={markdownToDraft(field?.value)}
+                        ref={field.ref}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                );
+              }}
             />
             <FormField
               control={control}

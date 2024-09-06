@@ -15,9 +15,12 @@ function JobListItem({ job, isAppliedJobItem }) {
     salary,
     companyLogoUrl,
     createdAt,
+    activeStatus,
   } = job ?? {};
   return (
-    <article className="flex gap-3 border rounded-lg p-5 hover:bg-muted/60">
+    <article
+      className={`flex gap-3 border rounded-lg p-5 hover:bg-muted/60 ${!activeStatus && "bg-gray-200/60 hover:bg-gray-200/60"}`}
+    >
       <Image
         src={companyLogoUrl || companyLogoPlaceholder}
         alt={companyName}
@@ -54,11 +57,15 @@ function JobListItem({ job, isAppliedJobItem }) {
         </div>
       </div>
       <div className="hidden sm:flex flex-col shrink-0 items-end justify-between">
-        <Badge>
-          {isAppliedJobItem?.status?.length > 0
-            ? isAppliedJobItem?.status
-            : type}
-        </Badge>
+        <div className="flex flex-col">
+          <Badge className="mb-2">
+            {isAppliedJobItem?.status?.length > 0
+              ? isAppliedJobItem?.status
+              : type}
+          </Badge>
+          {!activeStatus && <Badge>INACTIVE</Badge>}
+        </div>
+
         <span className="flex items-center gap-1.5 text-muted-foreground">
           <Clock size={16} />
           {relativeDate(

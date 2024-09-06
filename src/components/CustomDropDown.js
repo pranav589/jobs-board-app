@@ -7,24 +7,26 @@ import {
 } from "./ui/dropdown-menu";
 
 import LogoutButton from "./LogoutButton";
+import { cn } from "@/lib/utils";
 
 function CustomDropDown({
   customContent,
   items = [],
   children,
   renderLogoutButton = false,
+  className,
   renderItem,
 }) {
   return (
     <DropdownMenu>
       {children}
-      <DropdownMenuContent className="w-56" align="end">
+      <DropdownMenuContent className={cn("w-56", className)} align="end">
         {customContent}
-        <DropdownMenuSeparator />
+        {customContent && <DropdownMenuSeparator />}
         <DropdownMenuGroup>
-          {items?.map((item) => renderItem(item))}
+          {items?.map((item, index) => renderItem(item, index))}
         </DropdownMenuGroup>
-        <DropdownMenuSeparator />
+        {renderLogoutButton && <DropdownMenuSeparator />}
         {renderLogoutButton && <LogoutButton />}
       </DropdownMenuContent>
     </DropdownMenu>
