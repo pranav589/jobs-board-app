@@ -44,7 +44,7 @@ async function JobFilterSidebar({ defaultValues }) {
             <Input
               id="q"
               name="q"
-              placeholder="Title, company, etc."
+              placeholder="Title"
               defaultValue={defaultValues?.q}
             />
           </div>

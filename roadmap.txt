@@ -19,5 +19,8 @@
      8. Chat feature 
         A. Chat initiate can be only done by employer
      9. Notification feature
-     
+     10. Job Filter
+        A. On the basis of company Name
+        B. Sort latest
+    
     
