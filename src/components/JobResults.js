@@ -8,7 +8,7 @@ import { ArrowLeft, ArrowRight } from "lucide-react";
 async function JobResults({ filterValues, page = 1 }) {
   const { q, type, location, remote } = filterValues;
 
-  const jobsPerPage = 3;
+  const jobsPerPage = 10;
   const skip = (page - 1) * jobsPerPage;
 
   const searchString = q

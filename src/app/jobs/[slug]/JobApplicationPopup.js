@@ -54,11 +54,20 @@ function JobApplicationPopup({ job, profileData, isAlreadyApplied, disabled }) {
     },
   ];
 
+  const requiredFields =
+    !profileData?.userName ||
+    !profileData?.email ||
+    !profileData?.address ||
+    !profileData?.resume ||
+    !profileData?.experience;
+
   return (
     <PopupDialog
       buttonName={isAlreadyApplied?.status ?? "Apply"}
       dialogTitle={"Job Application"}
-      dialogDescription={"Please check your details (read only fields)."}
+      dialogDescription={
+        "Please check your details. And complete your profile if not done to apply for this job"
+      }
       open={open}
       setOpen={setOpen}
       disabledMainButton={disabled}
@@ -69,12 +78,14 @@ function JobApplicationPopup({ job, profileData, isAlreadyApplied, disabled }) {
             <div className="flex items-center my-2" key={detail?.name}>
               <Label className="text-lg">{detail.name}: </Label>
               {detail.type === "link" ? (
-                <a
-                  href={detail.value}
-                  className="text-base text-muted-foreground ml-3 mt-1 underline"
-                >
-                  Check
-                </a>
+                detail?.value && (
+                  <a
+                    href={detail.value}
+                    className="text-base text-muted-foreground ml-3 mt-1 underline"
+                  >
+                    Check
+                  </a>
+                )
               ) : (
                 <p className="text-base text-muted-foreground ml-3 mt-0.5 text-wrap">
                   {detail?.value}
@@ -86,7 +97,7 @@ function JobApplicationPopup({ job, profileData, isAlreadyApplied, disabled }) {
         <FormSubmitButton
           type="submit"
           className="w-full mt-2"
-          disabled={isAlreadyApplied?.id}
+          disabled={isAlreadyApplied?.id || requiredFields}
         >
           {isAlreadyApplied?.id ? `${isAlreadyApplied?.status}` : "Apply"}
         </FormSubmitButton>

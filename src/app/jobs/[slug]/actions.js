@@ -1,6 +1,7 @@
 "use server";
 
 import prisma from "@/lib/prisma";
+import { revalidatePath } from "next/cache";
 import { cache } from "react";
 
 const { auth } = require("@/lib/auth");
@@ -63,6 +64,7 @@ export async function applyForJob(jobId) {
         status: "APPLIED",
       },
     });
+    revalidatePath(`/jobs/${job?.slug}`);
     return application;
   } catch (error) {
     let message = "Unexpected Error";

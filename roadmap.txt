@@ -1,0 +1,23 @@
+----1. Register as CANDIDATE/RECRUITER
+    2. If RECRUITER-
+---   A. Have a profile section which will allow to edit company related details-
+       Company Name, Company Description, Company Location
+---   B. Have a screen to see all the jobs posted by the logged in recruiter.
+---    C. On clicking the jobs, will see the list of applicants for that jobs
+       with process status like IN PROCESS, HIRED, REJECTED.
+    3. If CANDIDATE-
+----  A. Need to login to applying the job.
+----- B. On Clicking APPLY, a popup will open to fill the candidate details like Resume, Experience, Address, etc.
+----- C. Have a profile section which will list all the applied jobs with the status.
+---- 4. Add login/logout functionality in header for all roles.
+---- 5. Inactive/active the job as employer.
+---- 6. Edit the job as employer. Add a check that the job created by only should be able to edit it.
+     7. ADMIN screens
+        A. List of jobs (can delete)
+        B. List of users 
+        C. Employer needs approval to post jobs for first time
+     8. Chat feature 
+        A. Chat initiate can be only done by employer
+     9. Notification feature
+     
+    
