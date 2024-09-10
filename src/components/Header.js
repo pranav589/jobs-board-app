@@ -55,8 +55,6 @@ async function Header() {
           <Image src={logo} alt="logo" width={40} height={40} />
           <span className="text-xl font-bold tracking-tight">Dev Jobs</span>
         </Link>
-        {/* Need to remove later */}
-        <p>{session?.user?.role}</p>
         <div>
           {session ? (
             <CustomDropDown
