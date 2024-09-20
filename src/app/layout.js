@@ -23,9 +23,7 @@ export default function RootLayout({ children }) {
         {children}
         <Footer />
         <Toaster position="top-right" />
-        <my-widget project-id="3"></my-widget>
       </body>
-      <Script src="https://feedback-popup-widget.vercel.app/widget.umd.js" />
     </html>
   );
 }
