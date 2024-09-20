@@ -3,6 +3,7 @@ import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Toaster } from "react-hot-toast";
+import Script from "next/script";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,7 +23,9 @@ export default function RootLayout({ children }) {
         {children}
         <Footer />
         <Toaster position="top-right" />
+        <my-widget project-id="3"></my-widget>
       </body>
+      <Script src="https://feedback-popup-widget.vercel.app/widget.umd.js" />
     </html>
   );
 }
