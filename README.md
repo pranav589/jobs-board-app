@@ -1,36 +1,34 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Jobs Board App
 
-## Getting Started
+## Tech Stack
+1. Next Js (App Router and Server Actions)
+2. Next Auth (For Authentication)
+3. Postgresql (From Vercel)
+4. Vercel Blob (For Storage)
+5. React Hook Form (For Form Validations)
+6. Shadcn UI
+7. draft js/react-draft-wysiwyg (For editor)
+8. react-markdown
 
-First, run the development server:
+## Features
+1. Authentication as Candidate or Employer
+2. As Employer-<br/>
+   a. Add jobs which includes job name,salary,description,etc <br/>
+   b. Edit a particular job. <br/>
+   c. Change the job status to active/inactive. If inactive, it will be hidden from job listing. <br/>
+   b. View application list for a job and change application status. <br/>
+4. As Candidate- <br/>
+   a. Can edit profile details like image,name,address,etc <br/>
+   b. Can apply to the active jobs <br/>
+   c. Can see the job application status <br/>
+5. Filtering of jobs on the basis of title, location, type, etc. <br/>
+6. The job details page are static pages making the page load faster.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## Upcoming features
+1. Admin Screens <br/>
+   a. Job list with ability to delete job <br/>
+   b. User list,etc <br/>
+2. Messaging system between candidate and employer
+3. Notification system
+   
+   
